@@ -12,7 +12,8 @@ import { appear, Swap, typed } from '../lib/motion';
 import { C, MONO } from '../theme';
 
 export const SCENE1_DURATION = 680;
-const FROM = 8;
+export const SCENE1_VOICE_FROM = 8;
+const FROM = SCENE1_VOICE_FROM;
 const c = (i: number) => cue('vo_1', FROM, i);
 
 const PROMPT = 'Buatkan halaman daftar tugas, lengkap dengan tombol hapus.';

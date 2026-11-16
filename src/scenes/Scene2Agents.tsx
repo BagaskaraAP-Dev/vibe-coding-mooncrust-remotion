@@ -12,7 +12,8 @@ import { appear, progress, typed } from '../lib/motion';
 import { C, MONO } from '../theme';
 
 export const SCENE2_DURATION = 775;
-const FROM = 22;
+export const SCENE2_VOICE_FROM = 22;
+const FROM = SCENE2_VOICE_FROM;
 const c = (i: number) => cue('vo_2', FROM, i);
 
 const ROW = 96;

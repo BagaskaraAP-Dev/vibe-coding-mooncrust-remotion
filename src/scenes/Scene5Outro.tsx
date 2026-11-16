@@ -12,7 +12,8 @@ import { appear, progress } from '../lib/motion';
 import { C, FLOOR_Y } from '../theme';
 
 export const SCENE5_DURATION = 680;
-const FROM = 22;
+export const SCENE5_VOICE_FROM = 22;
+const FROM = SCENE5_VOICE_FROM;
 const c = (i: number) => cue('vo_5', FROM, i);
 
 const QUOTE_FIRST = 5;

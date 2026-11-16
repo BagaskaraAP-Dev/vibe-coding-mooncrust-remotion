@@ -1,10 +1,11 @@
 // Copyright (C) 2026 Bagaskara Amukti Palapa. All rights reserved.
 //
 // Kamera virtual per scene: dorongan zoom pelan sepanjang scene, dan
-// guncangan kecil yang cepat reda di frame "pop" (saat elemen penting
-// muncul). Guncangan memakai random() Remotion jadi hasil render selalu sama.
+// denyut zoom kecil yang halus saat elemen penting muncul. Denyutnya
+// berupa kurva naik-turun yang mulus, bukan guncangan acak per frame,
+// supaya gambar tidak terlihat patah-patah.
 import React from 'react';
-import { AbsoluteFill, interpolate, random, useCurrentFrame } from 'remotion';
+import { AbsoluteFill, Easing, interpolate, useCurrentFrame } from 'remotion';
 
 interface CameraProps {
   duration: number;
@@ -13,28 +14,21 @@ interface CameraProps {
   children: React.ReactNode;
 }
 
-const SHAKE_FRAMES = 14;
-const SHAKE_PX = 7;
+const PULSE_FRAMES = 24;
+const PULSE_SCALE = 0.012;
 
 export const Camera: React.FC<CameraProps> = ({ duration, impacts = [], push = 0.025, children }) => {
   const frame = useCurrentFrame();
-  const scale = interpolate(frame, [0, duration], [1, 1 + push], {
+  const base = interpolate(frame, [0, duration], [1, 1 + push], {
     extrapolateRight: 'clamp',
   });
 
-  let x = 0;
-  let y = 0;
-  impacts.forEach((at, i) => {
-    const d = frame - at;
-    if (d < 0 || d > SHAKE_FRAMES) return;
-    const amp = SHAKE_PX * (1 - d / SHAKE_FRAMES) ** 2;
-    x += amp * (random(`cx-${i}-${frame}`) * 2 - 1);
-    y += amp * (random(`cy-${i}-${frame}`) * 2 - 1);
+  let pulse = 0;
+  impacts.forEach((at) => {
+    const d = (frame - at) / PULSE_FRAMES;
+    if (d < 0 || d > 1) return;
+    pulse += PULSE_SCALE * Math.sin(Math.PI * Easing.out(Easing.quad)(d));
   });
 
-  return (
-    <AbsoluteFill style={{ transform: `translate(${x}px, ${y}px) scale(${scale})` }}>
-      {children}
-    </AbsoluteFill>
-  );
+  return <AbsoluteFill style={{ transform: `scale(${base + pulse})` }}>{children}</AbsoluteFill>;
 };

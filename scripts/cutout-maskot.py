@@ -77,6 +77,7 @@ def background_mask(img: Image.Image) -> Image.Image:
 
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
+    cut = {}
     for src_name, out_name in FILES.items():
         img = Image.open(SRC / src_name).convert("RGB")
         bg = background_mask(img)
@@ -86,10 +87,23 @@ def main() -> None:
         alpha = Image.eval(bg, lambda v: 255 - v)
         rgba = img.convert("RGBA")
         rgba.putalpha(alpha)
-        rgba = rgba.crop(rgba.getbbox())
-        rgba.thumbnail((TARGET, TARGET), Image.LANCZOS)
-        rgba.save(OUT / out_name, optimize=True)
-        print(out_name, rgba.size)
+        cut[out_name] = rgba
+
+    # Semua pose dipotong dengan kotak yang sama. Wajah di gambar asli ada
+    # di posisi yang sama, jadi saat pose berganti (crossfade) wajahnya
+    # tetap menumpuk tepat dan tidak terlihat dobel.
+    boxes = [im.getbbox() for im in cut.values()]
+    box = (
+        min(b[0] for b in boxes),
+        min(b[1] for b in boxes),
+        max(b[2] for b in boxes),
+        max(b[3] for b in boxes),
+    )
+    for out_name, rgba in cut.items():
+        im = rgba.crop(box)
+        im.thumbnail((TARGET, TARGET), Image.LANCZOS)
+        im.save(OUT / out_name, optimize=True)
+        print(out_name, im.size)
 
 
 main()

@@ -38,20 +38,29 @@ Urutan dari naskah sampai MP4:
 4. **Maskot.** Gambar asli di `public/maskot-*.png` berlatar putih tanpa
    transparansi. `scripts/cutout-maskot.py` membuang latar putih dan
    menyimpan versi transparan ke `public/mascot/`. Komponen
-   `src/components/LivingMooncrust.tsx` lalu menghidupkannya:
-   - mengangguk dan memantul mengikuti volume voice-over asli (dibaca dengan
-     `useAudioData` dari `@remotion/media-utils`), jadi diam saat jeda
-   - berganti pose dengan squash lalu pop
-   - melompat kecil di kata yang ditekankan
+   `src/components/LivingMooncrust.tsx` lalu menghidupkannya dengan gerak
+   lembut ala video edukasi:
+   - melayang pelan sepanjang waktu, seperti bernapas
+   - ayunan kecil saat bicara. Volume voice-over (dibaca dengan
+     `useAudioData` dari `@remotion/media-utils`) dirata-rata setengah detik
+     supaya geraknya landai, tidak bergetar per frame
+   - berganti pose dengan crossfade
+   - lompatan kecil berbentuk busur di kata yang ditekankan
    - berpindah posisi dan ukuran di tengah scene
 5. **Panggung.** `src/components/Stage.tsx` adalah kerangka tiap scene:
-   langit berbintang (`Sky`), kamera yang pelan mendorong maju dan bergetar
-   kecil saat ada elemen penting muncul (`Camera`), lantai, caption, dan
-   audio.
-6. **Bulan.** `src/components/Moon.tsx` menggambar bulan di belakang
+   langit berbintang (`Sky`), kamera yang pelan mendorong maju dan memberi
+   denyut zoom halus saat ada elemen penting muncul (`Camera`), lantai,
+   caption, dan audio.
+6. **Musik latar.** `scripts/gen-bgm.mjs` mengomposisi lagu bergaya lagu
+   edukasi sepanjang 110 detik: ukulele yang dipetik (algoritma
+   Karplus-Strong), melodi glockenspiel, bass, shaker, kick, dan tepuk
+   tangan, dengan progresi C - G - Am - F di 100 BPM. Lagunya orisinal, jadi
+   bebas lisensi. Di `src/Root.tsx` volumenya otomatis turun selama narasi
+   berbicara dan naik lagi di sela scene serta di penutup.
+7. **Bulan.** `src/components/Moon.tsx` menggambar bulan di belakang
    Mooncrust. Fasenya membesar dari sabit di scene 1 sampai purnama di
    scene 5, jadi sekaligus menandai progres video.
-7. **Transisi.** `src/Root.tsx` menyambung lima scene dengan
+8. **Transisi.** `src/Root.tsx` menyambung lima scene dengan
    `TransitionSeries` dari `@remotion/transitions`: slide, wipe, slide, lalu
    iris (lingkaran yang membesar seperti bulan) ke scene penutup. Tiap
    transisi memakan 20 frame dari dua scene yang bertemu, sehingga
@@ -77,7 +86,8 @@ Membuat ulang aset (hanya jika naskah atau gambar maskot berubah):
 ```bash
 uvx --with edge-tts python scripts/gen-voice.py
 uvx --with pillow python scripts/cutout-maskot.py
-node scripts/gen-audio.mjs   # musik latar dan efek suara
+node scripts/gen-bgm.mjs     # musik latar
+node scripts/gen-audio.mjs   # efek suara
 ```
 
 ## Struktur folder
@@ -90,7 +100,8 @@ public/
 scripts/
   gen-voice.py          voice-over + waktu tiap kata
   cutout-maskot.py      buang latar putih maskot
-  gen-audio.mjs         musik latar dan efek suara
+  gen-bgm.mjs           musik latar bergaya lagu edukasi
+  gen-audio.mjs         efek suara
 src/
   Root.tsx              komposisi, transisi, header
   theme.ts              warna, font, ukuran

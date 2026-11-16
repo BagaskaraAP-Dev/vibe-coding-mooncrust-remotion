@@ -12,7 +12,8 @@ import { appear, progress, Swap } from '../lib/motion';
 import { C, H, W } from '../theme';
 
 export const SCENE3_DURATION = 675;
-const FROM = 22;
+export const SCENE3_VOICE_FROM = 22;
+const FROM = SCENE3_VOICE_FROM;
 const c = (i: number) => cue('vo_3', FROM, i);
 
 const HUB = { x: 330, y: 690, r: 95 };

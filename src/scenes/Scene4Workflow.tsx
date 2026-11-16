@@ -12,7 +12,8 @@ import { appear, progress } from '../lib/motion';
 import { C, MONO } from '../theme';
 
 export const SCENE4_DURATION = 570;
-const FROM = 22;
+export const SCENE4_VOICE_FROM = 22;
+const FROM = SCENE4_VOICE_FROM;
 const c = (i: number) => cue('vo_4', FROM, i);
 
 const PATH_X = 92;
