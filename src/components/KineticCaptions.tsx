@@ -1,86 +1,86 @@
+// Copyright (C) 2026 Bagaskara Amukti Palapa. All rights reserved.
+//
+// Caption yang mengikuti voice-over kata per kata. Waktunya dari
+// src/data/voice.json, jadi kata menyala tepat saat diucapkan. Caption
+// hanya tampil di pita lantai (di bawah FLOOR_Y), area yang tidak dipakai
+// visual lain, sehingga tidak pernah menutupi materi.
 import React from 'react';
-import { interpolate, useCurrentFrame } from 'remotion';
+import { spring, useCurrentFrame, useVideoConfig } from 'remotion';
+import { C, FLOOR_Y, FONT } from '../theme';
+import { VoiceName, Word, voiceWords } from '../lib/voice';
 
-export interface CaptionPhrase {
-  startFrame: number;
-  endFrame: number;
-  words: { text: string; start: number; end: number }[];
-}
+const MAX_CHARS = 30;
+const MAX_WORDS = 6;
 
-interface KineticCaptionsProps {
-  phrases: CaptionPhrase[];
-  containerBottom?: number;
-}
+const toPhrases = (words: Word[]): Word[][] => {
+  const phrases: Word[][] = [];
+  let cur: Word[] = [];
+  let chars = 0;
+  words.forEach((w) => {
+    cur.push(w);
+    chars += w.text.length + 1;
+    if (/[.,!?]$/.test(w.text) || chars > MAX_CHARS || cur.length >= MAX_WORDS) {
+      phrases.push(cur);
+      cur = [];
+      chars = 0;
+    }
+  });
+  if (cur.length) phrases.push(cur);
+  return phrases;
+};
 
-export const KineticCaptions: React.FC<KineticCaptionsProps> = ({
-  phrases,
-  containerBottom = 40,
-}) => {
-  const frame = useCurrentFrame();
+export const KineticCaptions: React.FC<{ voice: VoiceName; from: number }> = ({ voice, from }) => {
+  const frame = useCurrentFrame() - from;
+  const { fps } = useVideoConfig();
+  const phrases = toPhrases(voiceWords(voice));
 
-  // Find the active phrase
-  const activePhrase = phrases.find(
-    (p) => frame >= p.startFrame && frame <= p.endFrame
-  );
+  const index = phrases.findIndex((p, i) => {
+    const show = p[0].start - 4;
+    const next = phrases[i + 1];
+    const hide = next ? next[0].start - 4 : p[p.length - 1].end + 24;
+    return frame >= show && frame < hide;
+  });
+  if (index < 0) return null;
+  const phrase = phrases[index];
 
-  if (!activePhrase) return null;
+  const enter = spring({ frame: frame - (phrase[0].start - 4), fps, config: { damping: 18, stiffness: 200 } });
 
   return (
     <div
       style={{
         position: 'absolute',
-        bottom: containerBottom,
-        left: 30,
-        right: 30,
+        top: FLOOR_Y + 30,
+        left: 48,
+        right: 48,
+        height: 170,
         display: 'flex',
         flexWrap: 'wrap',
+        alignContent: 'center',
         justifyContent: 'center',
-        alignItems: 'center',
-        gap: '8px 12px',
-        padding: '16px 24px',
-        borderRadius: 22,
-        background: 'rgba(10, 15, 29, 0.92)',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
-        border: '1.5px solid rgba(0, 240, 255, 0.3)',
-        boxShadow: '0 20px 50px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 240, 255, 0.2)',
-        zIndex: 100,
-        fontFamily: "'Plus Jakarta Sans', sans-serif",
+        gap: '4px 14px',
+        fontFamily: FONT,
+        transform: `translateY(${(1 - enter) * 18}px)`,
+        opacity: enter,
       }}
     >
-      {activePhrase.words.map((w, idx) => {
-        const isActive = frame >= w.start && frame <= w.end;
-        const isPast = frame > w.end;
-
-        // Word pop scale when spoken
-        const scale = isActive
-          ? interpolate(frame, [w.start, w.start + 3, w.end], [1, 1.22, 1.1], {
-              extrapolateLeft: 'clamp',
-              extrapolateRight: 'clamp',
-            })
-          : 1;
-
+      {phrase.map((w, i) => {
+        const spoken = frame >= w.start;
+        const next = phrase[i + 1];
+        // Hanya satu kata yang menyala: kata terakhir yang sudah mulai diucapkan.
+        const active = spoken && frame < w.end + 6 && !(next && frame >= next.start);
+        const lift = active
+          ? spring({ frame: frame - w.start, fps, config: { damping: 10, stiffness: 260 } })
+          : 0;
         return (
           <span
-            key={idx}
+            key={i}
             style={{
-              fontSize: 26,
-              fontWeight: 800,
-              lineHeight: 1.3,
-              letterSpacing: 0.3,
-              transform: `scale(${scale})`,
-              transition: 'transform 0.05s ease',
-              color: isActive
-                ? '#FFE600'
-                : isPast
-                ? '#FFFFFF'
-                : 'rgba(255, 255, 255, 0.38)',
-              textShadow: isActive
-                ? '0 0 20px rgba(255, 230, 0, 0.8), 0 0 40px rgba(255, 230, 0, 0.4)'
-                : isPast
-                ? '0 2px 6px rgba(0,0,0,0.6)'
-                : 'none',
               display: 'inline-block',
+              fontSize: 46,
+              fontWeight: 800,
+              lineHeight: 1.25,
+              color: active ? C.moon : spoken ? C.ink : C.dim,
+              transform: `translateY(${-lift * 5}px) scale(${1 + lift * 0.06})`,
             }}
           >
             {w.text}

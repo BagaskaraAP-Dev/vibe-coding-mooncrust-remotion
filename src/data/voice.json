@@ -1,0 +1,897 @@
+{
+  "vo_1": {
+    "text": "Hai teman-teman! Kenalin aku Mooncrust. Apakah kalian tahu apa itu Vibe Coding? Vibe Coding adalah cara baru membangun aplikasi dan website modern cukup dengan mengarahkan AI menggunakan bahasa sehari-hari, tanpa harus mengetik ribuan baris kode sendirian dari nol!",
+    "words": [
+      {
+        "text": "Hai",
+        "start": 0.1,
+        "end": 0.443
+      },
+      {
+        "text": "teman-teman",
+        "start": 0.443,
+        "end": 1.399
+      },
+      {
+        "text": "Kenalin",
+        "start": 2.219,
+        "end": 2.795
+      },
+      {
+        "text": "aku",
+        "start": 2.795,
+        "end": 3.248
+      },
+      {
+        "text": "Mooncrust",
+        "start": 3.249,
+        "end": 4.18
+      },
+      {
+        "text": "Apakah",
+        "start": 5.001,
+        "end": 5.54
+      },
+      {
+        "text": "kalian",
+        "start": 5.54,
+        "end": 5.969
+      },
+      {
+        "text": "tahu",
+        "start": 5.969,
+        "end": 6.325
+      },
+      {
+        "text": "apa",
+        "start": 6.324,
+        "end": 6.668
+      },
+      {
+        "text": "itu",
+        "start": 6.668,
+        "end": 6.986
+      },
+      {
+        "text": "Vibe",
+        "start": 6.986,
+        "end": 7.391
+      },
+      {
+        "text": "Coding",
+        "start": 7.391,
+        "end": 7.991
+      },
+      {
+        "text": "Vibe",
+        "start": 8.812,
+        "end": 9.217
+      },
+      {
+        "text": "Coding",
+        "start": 9.217,
+        "end": 9.682
+      },
+      {
+        "text": "adalah",
+        "start": 9.682,
+        "end": 10.099
+      },
+      {
+        "text": "cara",
+        "start": 10.099,
+        "end": 10.344
+      },
+      {
+        "text": "baru",
+        "start": 10.344,
+        "end": 10.675
+      },
+      {
+        "text": "membangun",
+        "start": 10.675,
+        "end": 11.128
+      },
+      {
+        "text": "aplikasi",
+        "start": 11.128,
+        "end": 11.864
+      },
+      {
+        "text": "dan",
+        "start": 11.864,
+        "end": 12.072
+      },
+      {
+        "text": "website",
+        "start": 12.072,
+        "end": 12.501
+      },
+      {
+        "text": "modern",
+        "start": 12.501,
+        "end": 12.905
+      },
+      {
+        "text": "cukup",
+        "start": 12.905,
+        "end": 13.383
+      },
+      {
+        "text": "dengan",
+        "start": 13.383,
+        "end": 13.677
+      },
+      {
+        "text": "mengarahkan",
+        "start": 13.677,
+        "end": 14.241
+      },
+      {
+        "text": "AI",
+        "start": 14.241,
+        "end": 14.511
+      },
+      {
+        "text": "menggunakan",
+        "start": 14.511,
+        "end": 15.074
+      },
+      {
+        "text": "bahasa",
+        "start": 15.075,
+        "end": 15.528
+      },
+      {
+        "text": "sehari-hari",
+        "start": 15.528,
+        "end": 16.398
+      },
+      {
+        "text": "tanpa",
+        "start": 16.741,
+        "end": 17.121
+      },
+      {
+        "text": "harus",
+        "start": 17.121,
+        "end": 17.501
+      },
+      {
+        "text": "mengetik",
+        "start": 17.501,
+        "end": 17.893
+      },
+      {
+        "text": "ribuan",
+        "start": 17.893,
+        "end": 18.285
+      },
+      {
+        "text": "baris",
+        "start": 18.285,
+        "end": 18.616
+      },
+      {
+        "text": "kode",
+        "start": 18.616,
+        "end": 18.935
+      },
+      {
+        "text": "sendirian",
+        "start": 18.935,
+        "end": 19.498
+      },
+      {
+        "text": "dari",
+        "start": 19.499,
+        "end": 19.731
+      },
+      {
+        "text": "nol",
+        "start": 19.731,
+        "end": 20.234
+      }
+    ]
+  },
+  "vo_2": {
+    "text": "Nah, coba lihat tiga senjata utama di atas ini! Pertama ada Cursor sebagai editor kode pintar. Kedua ada Claude Code yang bekerja cepat di dalam terminal. Dan ketiga ada AI Autonomous Agents, agen otonom yang bisa memasang skills, menulis kode, sampai merender proyek secara mandiri.",
+    "words": [
+      {
+        "text": "Nah",
+        "start": 0.1,
+        "end": 0.553
+      },
+      {
+        "text": "coba",
+        "start": 0.909,
+        "end": 1.24
+      },
+      {
+        "text": "lihat",
+        "start": 1.24,
+        "end": 1.583
+      },
+      {
+        "text": "tiga",
+        "start": 1.583,
+        "end": 1.963
+      },
+      {
+        "text": "senjata",
+        "start": 1.963,
+        "end": 2.355
+      },
+      {
+        "text": "utama",
+        "start": 2.355,
+        "end": 2.955
+      },
+      {
+        "text": "di",
+        "start": 2.955,
+        "end": 3.115
+      },
+      {
+        "text": "atas",
+        "start": 3.115,
+        "end": 3.458
+      },
+      {
+        "text": "ini",
+        "start": 3.458,
+        "end": 3.911
+      },
+      {
+        "text": "Pertama",
+        "start": 4.731,
+        "end": 5.417
+      },
+      {
+        "text": "ada",
+        "start": 5.417,
+        "end": 5.699
+      },
+      {
+        "text": "Cursor",
+        "start": 5.699,
+        "end": 6.275
+      },
+      {
+        "text": "sebagai",
+        "start": 6.275,
+        "end": 6.716
+      },
+      {
+        "text": "editor",
+        "start": 6.716,
+        "end": 7.243
+      },
+      {
+        "text": "kode",
+        "start": 7.243,
+        "end": 7.611
+      },
+      {
+        "text": "pintar",
+        "start": 7.611,
+        "end": 8.272
+      },
+      {
+        "text": "Kedua",
+        "start": 9.094,
+        "end": 9.535
+      },
+      {
+        "text": "ada",
+        "start": 9.535,
+        "end": 9.829
+      },
+      {
+        "text": "Claude",
+        "start": 9.829,
+        "end": 10.148
+      },
+      {
+        "text": "Code",
+        "start": 10.148,
+        "end": 10.467
+      },
+      {
+        "text": "yang",
+        "start": 10.467,
+        "end": 10.589
+      },
+      {
+        "text": "bekerja",
+        "start": 10.589,
+        "end": 10.994
+      },
+      {
+        "text": "cepat",
+        "start": 10.994,
+        "end": 11.484
+      },
+      {
+        "text": "di",
+        "start": 11.484,
+        "end": 11.643
+      },
+      {
+        "text": "dalam",
+        "start": 11.643,
+        "end": 11.986
+      },
+      {
+        "text": "terminal",
+        "start": 11.986,
+        "end": 12.685
+      },
+      {
+        "text": "Dan",
+        "start": 13.506,
+        "end": 13.788
+      },
+      {
+        "text": "ketiga",
+        "start": 13.788,
+        "end": 14.315
+      },
+      {
+        "text": "ada",
+        "start": 14.315,
+        "end": 14.682
+      },
+      {
+        "text": "AI",
+        "start": 14.682,
+        "end": 14.927
+      },
+      {
+        "text": "Autonomous",
+        "start": 14.927,
+        "end": 15.589
+      },
+      {
+        "text": "Agents",
+        "start": 15.589,
+        "end": 16.3
+      },
+      {
+        "text": "agen",
+        "start": 16.655,
+        "end": 16.974
+      },
+      {
+        "text": "otonom",
+        "start": 16.974,
+        "end": 17.476
+      },
+      {
+        "text": "yang",
+        "start": 17.476,
+        "end": 17.636
+      },
+      {
+        "text": "bisa",
+        "start": 17.636,
+        "end": 18.003
+      },
+      {
+        "text": "memasang",
+        "start": 18.003,
+        "end": 18.432
+      },
+      {
+        "text": "skills",
+        "start": 18.432,
+        "end": 18.984
+      },
+      {
+        "text": "menulis",
+        "start": 19.29,
+        "end": 19.731
+      },
+      {
+        "text": "kode",
+        "start": 19.731,
+        "end": 20.283
+      },
+      {
+        "text": "sampai",
+        "start": 20.577,
+        "end": 21.043
+      },
+      {
+        "text": "merender",
+        "start": 21.043,
+        "end": 21.423
+      },
+      {
+        "text": "proyek",
+        "start": 21.423,
+        "end": 21.9
+      },
+      {
+        "text": "secara",
+        "start": 21.901,
+        "end": 22.391
+      },
+      {
+        "text": "mandiri",
+        "start": 22.391,
+        "end": 23.065
+      }
+    ]
+  },
+  "vo_3": {
+    "text": "Supaya AI tidak halusinasi, kita hubungkan otaknya dengan MCP atau Model Context Protocol. Lewat MCP, AI langsung terhubung ke dokumentasi terbaru Context7, database Supabase, repository GitHub, hingga pengujian browser otomatis dengan Playwright.",
+    "words": [
+      {
+        "text": "Supaya",
+        "start": 0.1,
+        "end": 0.713
+      },
+      {
+        "text": "AI",
+        "start": 0.713,
+        "end": 0.97
+      },
+      {
+        "text": "tidak",
+        "start": 0.97,
+        "end": 1.313
+      },
+      {
+        "text": "halusinasi",
+        "start": 1.313,
+        "end": 2.33
+      },
+      {
+        "text": "kita",
+        "start": 2.698,
+        "end": 2.943
+      },
+      {
+        "text": "hubungkan",
+        "start": 2.943,
+        "end": 3.409
+      },
+      {
+        "text": "otaknya",
+        "start": 3.409,
+        "end": 3.96
+      },
+      {
+        "text": "dengan",
+        "start": 3.96,
+        "end": 4.328
+      },
+      {
+        "text": "MCP",
+        "start": 4.328,
+        "end": 5.063
+      },
+      {
+        "text": "atau",
+        "start": 5.063,
+        "end": 5.419
+      },
+      {
+        "text": "Model",
+        "start": 5.419,
+        "end": 5.774
+      },
+      {
+        "text": "Context",
+        "start": 5.774,
+        "end": 6.313
+      },
+      {
+        "text": "Protocol",
+        "start": 6.313,
+        "end": 7.134
+      },
+      {
+        "text": "Lewat",
+        "start": 7.954,
+        "end": 8.481
+      },
+      {
+        "text": "MCP",
+        "start": 8.481,
+        "end": 9.302
+      },
+      {
+        "text": "AI",
+        "start": 9.658,
+        "end": 9.817
+      },
+      {
+        "text": "langsung",
+        "start": 9.817,
+        "end": 10.258
+      },
+      {
+        "text": "terhubung",
+        "start": 10.258,
+        "end": 10.761
+      },
+      {
+        "text": "ke",
+        "start": 10.761,
+        "end": 10.859
+      },
+      {
+        "text": "dokumentasi",
+        "start": 10.859,
+        "end": 11.545
+      },
+      {
+        "text": "terbaru",
+        "start": 11.545,
+        "end": 11.949
+      },
+      {
+        "text": "Context7",
+        "start": 11.95,
+        "end": 12.954
+      },
+      {
+        "text": "database",
+        "start": 13.285,
+        "end": 13.861
+      },
+      {
+        "text": "Supabase",
+        "start": 13.861,
+        "end": 14.707
+      },
+      {
+        "text": "repository",
+        "start": 15.05,
+        "end": 15.773
+      },
+      {
+        "text": "GitHub",
+        "start": 15.773,
+        "end": 16.275
+      },
+      {
+        "text": "hingga",
+        "start": 16.631,
+        "end": 16.974
+      },
+      {
+        "text": "pengujian",
+        "start": 16.974,
+        "end": 17.476
+      },
+      {
+        "text": "browser",
+        "start": 17.476,
+        "end": 17.942
+      },
+      {
+        "text": "otomatis",
+        "start": 17.942,
+        "end": 18.739
+      },
+      {
+        "text": "dengan",
+        "start": 18.739,
+        "end": 19.119
+      },
+      {
+        "text": "Playwright",
+        "start": 19.119,
+        "end": 19.707
+      }
+    ]
+  },
+  "vo_4": {
+    "text": "Alur kerjanya jadi super praktis! Dari satu Master Brief yang terstruktur, AI akan merancang arsitektur dengan Sequential Thinking, mengecek error TypeScript, hingga menghasilkan aplikasi web dan mobile yang siap digunakan.",
+    "words": [
+      {
+        "text": "Alur",
+        "start": 0.1,
+        "end": 0.48
+      },
+      {
+        "text": "kerjanya",
+        "start": 0.48,
+        "end": 1.093
+      },
+      {
+        "text": "jadi",
+        "start": 1.093,
+        "end": 1.436
+      },
+      {
+        "text": "super",
+        "start": 1.436,
+        "end": 1.767
+      },
+      {
+        "text": "praktis",
+        "start": 1.767,
+        "end": 2.563
+      },
+      {
+        "text": "Dari",
+        "start": 3.383,
+        "end": 3.714
+      },
+      {
+        "text": "satu",
+        "start": 3.714,
+        "end": 4.106
+      },
+      {
+        "text": "Master",
+        "start": 4.106,
+        "end": 4.425
+      },
+      {
+        "text": "Brief",
+        "start": 4.425,
+        "end": 4.829
+      },
+      {
+        "text": "yang",
+        "start": 4.829,
+        "end": 4.964
+      },
+      {
+        "text": "terstruktur",
+        "start": 4.964,
+        "end": 5.736
+      },
+      {
+        "text": "AI",
+        "start": 6.079,
+        "end": 6.275
+      },
+      {
+        "text": "akan",
+        "start": 6.276,
+        "end": 6.643
+      },
+      {
+        "text": "merancang",
+        "start": 6.643,
+        "end": 7.035
+      },
+      {
+        "text": "arsitektur",
+        "start": 7.035,
+        "end": 7.783
+      },
+      {
+        "text": "dengan",
+        "start": 7.783,
+        "end": 8.077
+      },
+      {
+        "text": "Sequential",
+        "start": 8.077,
+        "end": 8.775
+      },
+      {
+        "text": "Thinking",
+        "start": 8.775,
+        "end": 9.462
+      },
+      {
+        "text": "mengecek",
+        "start": 9.805,
+        "end": 10.222
+      },
+      {
+        "text": "error",
+        "start": 10.222,
+        "end": 10.565
+      },
+      {
+        "text": "TypeScript",
+        "start": 10.565,
+        "end": 11.312
+      },
+      {
+        "text": "hingga",
+        "start": 11.631,
+        "end": 11.937
+      },
+      {
+        "text": "menghasilkan",
+        "start": 11.937,
+        "end": 12.526
+      },
+      {
+        "text": "aplikasi",
+        "start": 12.525,
+        "end": 13.175
+      },
+      {
+        "text": "web",
+        "start": 13.175,
+        "end": 13.445
+      },
+      {
+        "text": "dan",
+        "start": 13.445,
+        "end": 13.628
+      },
+      {
+        "text": "mobile",
+        "start": 13.628,
+        "end": 14.07
+      },
+      {
+        "text": "yang",
+        "start": 14.07,
+        "end": 14.278
+      },
+      {
+        "text": "siap",
+        "start": 14.278,
+        "end": 14.646
+      },
+      {
+        "text": "digunakan",
+        "start": 14.646,
+        "end": 15.491
+      }
+    ]
+  },
+  "vo_5": {
+    "text": "Seru banget kan? Ingat ya, AI adalah co-pilot terbaikmu, tapi kamulah arsitek utamanya. Terima kasih sudah belajar bareng Mooncrust! Jangan lupa simpan video ini dan selamat mencoba Vibe Coding!",
+    "words": [
+      {
+        "text": "Seru",
+        "start": 0.1,
+        "end": 0.492
+      },
+      {
+        "text": "banget",
+        "start": 0.492,
+        "end": 0.835
+      },
+      {
+        "text": "kan",
+        "start": 0.835,
+        "end": 1.252
+      },
+      {
+        "text": "Ingat",
+        "start": 2.072,
+        "end": 2.476
+      },
+      {
+        "text": "ya",
+        "start": 2.476,
+        "end": 2.881
+      },
+      {
+        "text": "AI",
+        "start": 3.224,
+        "end": 3.494
+      },
+      {
+        "text": "adalah",
+        "start": 3.494,
+        "end": 3.923
+      },
+      {
+        "text": "co-pilot",
+        "start": 3.923,
+        "end": 4.388
+      },
+      {
+        "text": "terbaikmu",
+        "start": 4.388,
+        "end": 5.16
+      },
+      {
+        "text": "tapi",
+        "start": 5.479,
+        "end": 5.773
+      },
+      {
+        "text": "kamulah",
+        "start": 5.773,
+        "end": 6.263
+      },
+      {
+        "text": "arsitek",
+        "start": 6.263,
+        "end": 6.864
+      },
+      {
+        "text": "utamanya",
+        "start": 6.864,
+        "end": 7.734
+      },
+      {
+        "text": "Terima",
+        "start": 8.555,
+        "end": 8.886
+      },
+      {
+        "text": "kasih",
+        "start": 8.886,
+        "end": 9.351
+      },
+      {
+        "text": "sudah",
+        "start": 9.351,
+        "end": 9.658
+      },
+      {
+        "text": "belajar",
+        "start": 9.658,
+        "end": 10.062
+      },
+      {
+        "text": "bareng",
+        "start": 10.062,
+        "end": 10.43
+      },
+      {
+        "text": "Mooncrust",
+        "start": 10.43,
+        "end": 11.337
+      },
+      {
+        "text": "Jangan",
+        "start": 12.158,
+        "end": 12.599
+      },
+      {
+        "text": "lupa",
+        "start": 12.599,
+        "end": 12.893
+      },
+      {
+        "text": "simpan",
+        "start": 12.893,
+        "end": 13.31
+      },
+      {
+        "text": "video",
+        "start": 13.31,
+        "end": 13.665
+      },
+      {
+        "text": "ini",
+        "start": 13.665,
+        "end": 14.057
+      },
+      {
+        "text": "dan",
+        "start": 14.057,
+        "end": 14.266
+      },
+      {
+        "text": "selamat",
+        "start": 14.266,
+        "end": 14.731
+      },
+      {
+        "text": "mencoba",
+        "start": 14.731,
+        "end": 15.197
+      },
+      {
+        "text": "Vibe",
+        "start": 15.197,
+        "end": 15.601
+      },
+      {
+        "text": "Coding",
+        "start": 15.601,
+        "end": 16.239
+      }
+    ]
+  }
+}

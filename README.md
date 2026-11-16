@@ -1,94 +1,108 @@
-# 🎬 Vibe Coding Bersama Mooncrust (Instagram Feeds Video)
+# Vibe Coding Bersama Mooncrust
 
-> **Dibuat & Dirender secara Otonom oleh [Google Antigravity](https://deepmind.google) & Gemini**  
-> Video animasi edukasi vertikal Instagram Feeds berdurasi **01:50 Menit (110 Detik / 3300 Frames @ 30 FPS)** dengan resolusi **1080x1350 (Rasio 4:5)** dan presenter **Mooncrust**.
+Video edukasi Instagram Feeds tentang Vibe Coding, dibawakan oleh Mooncrust.
+Dibuat dengan [Remotion](https://remotion.dev): seluruh animasi ditulis sebagai
+komponen React, lalu dirender menjadi MP4.
 
-🎥 **Download & Tonton Video MP4 Langsung:**  
-👉 **[Download Video di GitHub Release v1.0.0](https://github.com/BagaskaraAP-Dev/vibe-coding-mooncrust-remotion/releases/tag/v1.0.0)** (24.9 MB)
+- Durasi 01:50 (3300 frame, 30 fps)
+- Resolusi 1080x1350 (rasio 4:5)
+- Video siap tonton: [GitHub Release v1.0.0](https://github.com/BagaskaraAP-Dev/vibe-coding-mooncrust-remotion/releases/tag/v1.0.0)
 
----
+## Isi video
 
-## 🌟 Tentang Proyek
-Proyek ini mengilustrasikan paradigma baru rekayasa perangkat lunak modern: **Vibe Coding**. Video ini menjelaskan bagaimana developer dapat mengarahkan kecerdasan buatan (AI) menggunakan bahasa sehari-hari untuk merancang arsitektur, menulis kode, hingga menguji dan merender software secara otonom.
+| Waktu | Scene | Yang dibahas |
+| --- | --- | --- |
+| 00:00 | Vibe Coding | Mooncrust menyapa, lalu memperlihatkan idenya: kalimat sehari-hari masuk, kode keluar. |
+| 00:22 | Tiga senjata | Cursor (editor), Claude Code (agen di terminal), dan AI Autonomous Agents. Kartu alat yang sedang disebut membesar dan memperlihatkan cara kerjanya. |
+| 00:47 | MCP | AI yang awalnya menebak, lalu tersambung ke Context7, Supabase, GitHub, dan Playwright tepat saat namanya diucapkan. |
+| 01:09 | Alur kerja | Master Brief, Sequential Thinking, cek TypeScript, aplikasi siap dipakai. |
+| 01:27 | Penutup | "AI adalah co-pilot terbaikmu, tapi kamulah arsitek utamanya." |
 
-### 📚 Daftar Adegan (Scenes)
-1. **Scene 1: Pengenalan Vibe Coding** (00:00–00:20) — Konsep dasar mengarahkan AI tanpa mengetik kode dari nol sendirian.
-2. **Scene 2: 3 Senjata Utama** (00:20–00:44) — Integrasi Cursor (Editor Pintar), Claude Code (CLI Terminal), dan Google Antigravity (Autonomous Agent).
-3. **Scene 3: Model Context Protocol (MCP)** (00:44–01:08) — Menghubungkan otak AI ke Context7 Docs, database Supabase, GitHub, dan pengujian Playwright.
-4. **Scene 4: Alur Kerja Terstruktur** (01:08–01:32) — Pipeline dari Master Brief, Sequential Thinking, pengecekan TypeScript, hingga produk siap pakai.
-5. **Scene 5: Penutup & Pesan Arsitek** (01:32–01:50) — *"AI adalah co-pilot terbaikmu, tapi kamulah arsitek utamanya."*
+## Cara kerja proyek ini
 
----
+Urutan dari naskah sampai MP4:
 
-## 🛠️ Tech Stack & Alat
-- **Framework Animasi**: [Remotion](https://remotion.dev) (v4)
-- **Audio Synthesis**: Microsoft Edge-TTS (`id-ID-GadisNeural`) & Script Generator Audio Lo-Fi Synth
-- **Audio Visualizer**: `@remotion/media-utils` (`visualizeAudio` & `useAudioData`)
-- **Typography**: `@remotion/google-fonts` (Plus Jakarta Sans & Poppins)
-- **Desain & Animasi**: Antislop Principles, Spring Physics (`spring()`), Interpolation (`interpolate()`)
+1. **Suara.** `scripts/gen-voice.py` membacakan naskah tiap scene dengan
+   Edge-TTS (suara `id-ID-GadisNeural`) dan menyimpan `public/assets/vo_1.mp3`
+   sampai `vo_5.mp3`. Selain audio, script ini mencatat kapan tiap kata mulai
+   dan selesai diucapkan ke `src/data/voice.json`.
+2. **Waktu kata menjadi frame.** `src/lib/voice.ts` mengubah detik di
+   `voice.json` menjadi nomor frame. Fungsi `cue(voice, from, index)`
+   menjawab "di frame berapa kata ke-sekian diucapkan". Semua animasi memakai
+   fungsi ini, jadi kartu, garis, dan caption muncul tepat saat kata itu
+   terdengar, bukan di angka frame tebakan.
+3. **Caption.** `src/components/KineticCaptions.tsx` memecah kata menjadi
+   frasa pendek (putus di tanda baca atau sekitar 30 huruf), lalu menyalakan
+   satu kata yang sedang diucapkan dengan warna emas. Caption hanya tampil di
+   pita lantai di bawah garis `FLOOR_Y`, area yang tidak dipakai visual lain.
+4. **Maskot.** Gambar asli di `public/maskot-*.png` berlatar putih tanpa
+   transparansi. `scripts/cutout-maskot.py` membuang latar putih dan
+   menyimpan versi transparan ke `public/mascot/`. Komponen
+   `src/components/LivingMooncrust.tsx` lalu menghidupkannya:
+   - mengangguk dan memantul mengikuti volume voice-over asli (dibaca dengan
+     `useAudioData` dari `@remotion/media-utils`), jadi diam saat jeda
+   - berganti pose dengan squash lalu pop
+   - melompat kecil di kata yang ditekankan
+   - berpindah posisi dan ukuran di tengah scene
+5. **Panggung.** `src/components/Stage.tsx` adalah kerangka tiap scene:
+   langit berbintang (`Sky`), kamera yang pelan mendorong maju dan bergetar
+   kecil saat ada elemen penting muncul (`Camera`), lantai, caption, dan
+   audio.
+6. **Bulan.** `src/components/Moon.tsx` menggambar bulan di belakang
+   Mooncrust. Fasenya membesar dari sabit di scene 1 sampai purnama di
+   scene 5, jadi sekaligus menandai progres video.
+7. **Transisi.** `src/Root.tsx` menyambung lima scene dengan
+   `TransitionSeries` dari `@remotion/transitions`: slide, wipe, slide, lalu
+   iris (lingkaran yang membesar seperti bulan) ke scene penutup. Tiap
+   transisi memakan 20 frame dari dua scene yang bertemu, sehingga
+   `jumlah durasi scene - 4 x 20 = 3300 frame`.
 
----
+Warna dan ukuran dasar ada di `src/theme.ts`. Navy diambil dari hoodie dan
+rambut maskot, emas dari warna bulan mooncrust.my.id.
 
-## 🚀 Cara Menjalankan Secara Lokal
+## Menjalankan
 
-### 1. Prasyarat
-- [Node.js](https://nodejs.org) (v18+)
-- [FFmpeg](https://ffmpeg.org)
+Prasyarat: Node.js 18 atau lebih baru. Untuk membuat ulang suara dan
+potongan maskot, butuh juga [uv](https://docs.astral.sh/uv/).
 
-### 2. Instalasi Dependensi
 ```bash
 npm install
+npm run preview   # Remotion Studio di http://localhost:3000
+npm run build     # render ke out/ig-feeds-vibe-coding.mp4
+npx tsc --noEmit  # cek tipe TypeScript
 ```
 
-### 3. Jalankan Remotion Preview (Studio Interaktif)
+Membuat ulang aset (hanya jika naskah atau gambar maskot berubah):
+
 ```bash
-npm run preview
+uvx --with edge-tts python scripts/gen-voice.py
+uvx --with pillow python scripts/cutout-maskot.py
+node scripts/gen-audio.mjs   # musik latar dan efek suara
 ```
-Buka browser di `http://localhost:3000` untuk melihat preview video, scrubbing timeline, dan memeriksa tiap scene secara visual.
 
-### 4. Render Video Final MP4
-```bash
-npm run build
-```
-Video final akan tersimpan di:
-`out/ig-feeds-vibe-coding.mp4` (Resolusi: 1080x1350 @ 30fps, Durasi: 01:50)
+## Struktur folder
 
----
-
-## 📁 Struktur Folder
 ```text
-belajarmasterbrief/
-├── public/
-│   ├── 01-ai-agents.png          # Diagram 3 Pilar AI
-│   ├── 02-mcp-ecosystem.png      # Diagram Ekosistem MCP
-│   ├── 03-vibe-workflow.png      # Diagram Alur Kerja Vibe Coding
-│   ├── maskot-laptop.png         # Presenter Mooncrust di Laptop
-│   ├── maskot-tunjuk.png         # Presenter Mooncrust Menunjuk
-│   ├── maskot-penutup.png        # Presenter Mooncrust Melambaikan Tangan
-│   └── assets/
-│       ├── vo_1.mp3 s/d vo_5.mp3 # Voice-Over Bahasa Indonesia
-│       ├── bgm_ig_loop.wav       # Musik Latar Lo-Fi Synth (15s Loop)
-│       └── sfx_*.wav             # Sound Effects (Whoosh, Pop, Sparkle)
-├── src/
-│   ├── index.ts                  # Entry point registerRoot
-│   ├── Root.tsx                  # Komposisi Video & Watermark
-│   ├── components/
-│   │   └── MooncrustPresenter.tsx# Komponen Avatar & Neon Spectrum Visualizer
-│   └── scenes/
-│       ├── Scene1Intro.tsx       # Scene 1
-│       ├── Scene2Agents.tsx      # Scene 2
-│       ├── Scene3MCP.tsx         # Scene 3
-│       ├── Scene4Workflow.tsx    # Scene 4
-│       └── Scene5Outro.tsx       # Scene 5
-├── scripts/
-│   └── gen-audio.mjs             # Script sintesis BGM & SFX WAV
-├── remotion.config.ts
-├── tsconfig.json
-└── package.json
+public/
+  maskot-*.png          gambar maskot asli (latar putih)
+  mascot/               maskot transparan hasil cutout-maskot.py
+  assets/               voice-over, musik latar, efek suara
+scripts/
+  gen-voice.py          voice-over + waktu tiap kata
+  cutout-maskot.py      buang latar putih maskot
+  gen-audio.mjs         musik latar dan efek suara
+src/
+  Root.tsx              komposisi, transisi, header
+  theme.ts              warna, font, ukuran
+  data/voice.json       waktu tiap kata (hasil gen-voice.py)
+  lib/voice.ts          cue(): kata menjadi frame
+  lib/motion.tsx        potongan gerak yang dipakai ulang
+  components/           Stage, Sky, Moon, Camera, LivingMooncrust, KineticCaptions
+  scenes/               Scene1Intro sampai Scene5Outro
 ```
 
----
+## Hak cipta
 
-## 📄 Lisensi
-Dibuat untuk tujuan edukasi & pembelajaran Vibe Coding.
-Developed with ❤️ by **BagaskaraAP-Dev** using **Google Antigravity & Gemini**.
+Copyright (C) 2026 Bagaskara Amukti Palapa. Mooncrust dan karakternya milik
+Bagaskara Amukti Palapa ([mooncrust.my.id](https://mooncrust.my.id)).
+Dibuat untuk bahan belajar Vibe Coding.

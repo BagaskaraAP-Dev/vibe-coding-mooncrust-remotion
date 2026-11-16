@@ -1,5 +1,18 @@
+// Copyright (C) 2026 Bagaskara Amukti Palapa. All rights reserved.
+//
+// Mooncrust yang "hidup". Gambar maskotnya statis, jadi semua ekspresi
+// datang dari gerak:
+// - bicara: anggukan dan pantulan digerakkan oleh volume voice-over asli
+//   (bukan sinus buatan), jadi diam saat jeda dan aktif saat kalimat ramai
+// - ganti pose: squash sebelum berganti gambar, lalu pop dengan overshoot
+// - lompatan kecil di kata yang ditekankan: antisipasi, naik, mendarat
+// - pindah posisi dan ukuran di tengah scene lewat `track`
+// Bagian bawah gambar terpotong (hoodie), jadi badan selalu ditanam 70px
+// di bawah garis lantai dan lantai digambar di atasnya.
 import React from 'react';
+import { useAudioData } from '@remotion/media-utils';
 import {
+  Easing,
   Img,
   interpolate,
   spring,
@@ -7,201 +20,172 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from 'remotion';
+import { FLOOR_Y } from '../theme';
+import { VoiceName } from '../lib/voice';
+import { Moon } from './Moon';
 
-interface LivingMooncrustProps {
-  mascotSrc: string;
-  size?: number;
-  position?: 'bottom-left' | 'bottom-right' | 'center' | 'side-left';
-  isTalking?: boolean;
-  nameTag?: string;
-  roleTag?: string;
+export type Pose = 'laptop' | 'tunjuk' | 'penutup';
+
+const ASPECT: Record<Pose, number> = {
+  laptop: 904 / 1100,
+  tunjuk: 763 / 1100,
+  penutup: 713 / 1100,
+};
+
+interface TrackPoint {
+  at: number;
+  x: number;
+  height: number;
 }
 
+interface LivingMooncrustProps {
+  poses: { at: number; pose: Pose }[];
+  track: TrackPoint[];
+  voice: { name: VoiceName; from: number };
+  hops?: number[];
+  flip?: boolean;
+  enter?: number;
+  moonPhase: number;
+}
+
+const SINK = 70;
+const MOVE_FRAMES = 26;
+
+const trackAt = (track: TrackPoint[], frame: number): { x: number; height: number } => {
+  let cur = { x: track[0].x, height: track[0].height };
+  for (let i = 1; i < track.length; i++) {
+    const p = track[i];
+    if (frame < p.at) break;
+    const t = interpolate(frame, [p.at, p.at + MOVE_FRAMES], [0, 1], {
+      extrapolateRight: 'clamp',
+      easing: Easing.inOut(Easing.cubic),
+    });
+    cur = {
+      x: interpolate(t, [0, 1], [cur.x, p.x]),
+      height: interpolate(t, [0, 1], [cur.height, p.height]),
+    };
+  }
+  return cur;
+};
+
+// Volume (RMS) voice-over di sekitar frame ini, 0..1.
+const useVoiceLevel = (name: VoiceName, from: number): number => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const audio = useAudioData(staticFile(`assets/${name}.mp3`));
+  if (!audio) return 0;
+  const t = (frame - from) / fps;
+  if (t < 0) return 0;
+  const samples = audio.channelWaveforms[0];
+  const sr = audio.sampleRate;
+  const s0 = Math.max(0, Math.floor((t - 1 / fps) * sr));
+  const s1 = Math.min(samples.length, Math.floor((t + 1 / fps) * sr));
+  let sum = 0;
+  let n = 0;
+  for (let i = s0; i < s1; i += 4) {
+    sum += samples[i] * samples[i];
+    n++;
+  }
+  return n ? Math.min(1, Math.sqrt(sum / n) * 5) : 0;
+};
+
 export const LivingMooncrust: React.FC<LivingMooncrustProps> = ({
-  mascotSrc,
-  size = 360,
-  position = 'bottom-left',
-  isTalking = true,
-  nameTag = 'MOONCRUST',
-  roleTag = '✦ AI Presenter',
+  poses,
+  track,
+  voice,
+  hops = [],
+  flip = false,
+  enter = 0,
+  moonPhase,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const level = useVoiceLevel(voice.name, voice.from);
 
-  // Entrance spring animation
-  const enterSpring = spring({
-    frame,
-    fps,
-    config: { damping: 11, stiffness: 110 },
+  const { x, height } = trackAt(track, frame);
+
+  // Pose aktif dan efek pergantiannya
+  let poseIndex = 0;
+  poses.forEach((p, i) => {
+    if (frame >= p.at) poseIndex = i;
   });
-
-  // Squash & Stretch / Breathing physics
-  const breatheY = Math.sin(frame / 14) * 8;
-  const talkBob = isTalking ? Math.sin(frame * 0.4) * 6 : 0;
-  const talkScaleX = isTalking ? 1 + Math.sin(frame * 0.4) * 0.03 : 1;
-  const talkScaleY = isTalking ? 1 - Math.sin(frame * 0.4) * 0.03 : 1;
-  const swayRotate = Math.sin(frame / 18) * 3.5;
-
-  // Soundwave ripple rings when speaking
-  const ripple1 = (frame * 3) % 60;
-  const ripple1Scale = interpolate(ripple1, [0, 60], [1, 1.8]);
-  const ripple1Opacity = interpolate(ripple1, [0, 40, 60], [0.8, 0.4, 0]);
-
-  const ripple2 = (frame * 3 + 30) % 60;
-  const ripple2Scale = interpolate(ripple2, [0, 60], [1, 1.8]);
-  const ripple2Opacity = interpolate(ripple2, [0, 40, 60], [0.8, 0.4, 0]);
-
-  // Position styles
-  let posStyle: React.CSSProperties = {};
-  if (position === 'bottom-left') {
-    posStyle = { bottom: 150, left: 36 };
-  } else if (position === 'bottom-right') {
-    posStyle = { bottom: 150, right: 36 };
-  } else if (position === 'side-left') {
-    posStyle = { top: 380, left: 36 };
-  } else {
-    posStyle = { bottom: 200, left: '50%', transform: 'translateX(-50%)' };
+  const pose = poses[poseIndex].pose;
+  let squashY = 1;
+  const next = poses[poseIndex + 1];
+  if (next && frame >= next.at - 6) {
+    const t = (frame - (next.at - 6)) / 6;
+    squashY = 1 - 0.1 * t;
+  } else if (poseIndex > 0) {
+    const pop = spring({
+      frame: frame - poses[poseIndex].at,
+      fps,
+      config: { damping: 7, stiffness: 220 },
+    });
+    squashY = interpolate(pop, [0, 1], [0.9, 1]);
   }
 
-  return (
-    <div
-      style={{
-        position: 'absolute',
-        ...posStyle,
-        zIndex: 60,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        pointerEvents: 'none',
-        transform: `scale(${enterSpring}) translateY(${interpolate(
-          enterSpring,
-          [0, 1],
-          [80, 0]
-        )}px)`,
-      }}
-    >
-      {/* Speech Acoustic Ring Waves */}
-      {isTalking && (
-        <>
-          <div
-            style={{
-              position: 'absolute',
-              top: '40%',
-              left: '50%',
-              width: size * 0.7,
-              height: size * 0.7,
-              marginTop: -(size * 0.35),
-              marginLeft: -(size * 0.35),
-              borderRadius: '50%',
-              border: '2px solid #00F0FF',
-              transform: `scale(${ripple1Scale})`,
-              opacity: ripple1Opacity,
-              boxShadow: '0 0 15px #00F0FF',
-            }}
-          />
-          <div
-            style={{
-              position: 'absolute',
-              top: '40%',
-              left: '50%',
-              width: size * 0.7,
-              height: size * 0.7,
-              marginTop: -(size * 0.35),
-              marginLeft: -(size * 0.35),
-              borderRadius: '50%',
-              border: '2px solid #A855F7',
-              transform: `scale(${ripple2Scale})`,
-              opacity: ripple2Opacity,
-              boxShadow: '0 0 15px #A855F7',
-            }}
-          />
-        </>
-      )}
+  // Lompatan di kata yang ditekankan
+  let hopY = 0;
+  hops.forEach((h) => {
+    const d = frame - h;
+    if (d < 0 || d > 16) return;
+    if (d < 3) {
+      squashY *= 1 - 0.05 * (d / 3);
+    } else if (d < 13) {
+      hopY -= 30 * Math.sin((Math.PI * (d - 3)) / 10);
+      squashY *= 1.03;
+    } else {
+      squashY *= 0.96 + 0.04 * ((d - 13) / 3);
+    }
+  });
 
-      {/* Futuristic Hologram Pedestal Base */}
+  const squashX = 1 / Math.sqrt(squashY);
+  const breathe = 1 + Math.sin(frame / 22) * 0.012;
+  const talkY = -level * 12;
+  const nod = Math.sin(frame * 0.45) * level * 2.4;
+  const sway = Math.sin(frame / 45) * 1.2;
+
+  const enterSpring = spring({ frame: frame - enter, fps, config: { damping: 13, stiffness: 110 } });
+  const enterY = (1 - enterSpring) * height * 0.6;
+
+  const width = height * ASPECT[pose];
+  const bottom = FLOOR_Y + SINK;
+  const moonSize = height * 0.92;
+  const moonCenterY = bottom - height * 0.62;
+
+  return (
+    <>
       <div
         style={{
           position: 'absolute',
-          bottom: 12,
-          width: size * 0.85,
-          height: 38,
-          borderRadius: '50%',
-          background:
-            'radial-gradient(ellipse at center, rgba(0, 240, 255, 0.45) 0%, rgba(139, 92, 246, 0.25) 50%, transparent 80%)',
-          filter: 'blur(6px)',
-          boxShadow: '0 0 35px rgba(0, 240, 255, 0.5)',
-          transform: `scale(${1 + Math.sin(frame / 10) * 0.08})`,
+          left: x - moonSize / 2,
+          top: moonCenterY - moonSize / 2 + Math.sin(frame / 60) * 4,
+          opacity: enterSpring,
         }}
-      />
+      >
+        <Moon id="moon-stage" size={moonSize} phase={moonPhase} />
+      </div>
 
-      {/* Main Character Sprite Container */}
       <div
         style={{
-          width: size,
-          height: size,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          transform: `translateY(${breatheY + talkBob}px) rotate(${swayRotate}deg) scale(${talkScaleX}, ${talkScaleY})`,
-          transformOrigin: 'bottom center',
-          filter:
-            'drop-shadow(0 15px 30px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 25px rgba(0, 240, 255, 0.35))',
+          position: 'absolute',
+          left: x - width / 2,
+          top: bottom - height,
+          width,
+          height,
+          transformOrigin: '50% 100%',
+          transform: `translateY(${enterY + hopY + talkY}px) rotate(${sway + nod}deg) scale(${squashX * (2 - breathe)}, ${squashY * breathe})`,
         }}
       >
         <Img
-          src={staticFile(mascotSrc)}
+          src={staticFile(`mascot/${pose}.png`)}
           style={{
             width: '100%',
             height: '100%',
-            objectFit: 'contain',
+            transform: flip ? 'scaleX(-1)' : undefined,
           }}
         />
       </div>
-
-      {/* Floating Presenter Name Tag Pill */}
-      <div
-        style={{
-          marginTop: -8,
-          display: 'flex',
-          alignItems: 'center',
-          gap: 8,
-          padding: '6px 16px',
-          borderRadius: 999,
-          background: 'rgba(15, 23, 42, 0.9)',
-          backdropFilter: 'blur(16px)',
-          border: '1.5px solid rgba(0, 240, 255, 0.4)',
-          boxShadow: '0 8px 20px rgba(0, 0, 0, 0.6), 0 0 15px rgba(0, 240, 255, 0.3)',
-        }}
-      >
-        <span
-          style={{
-            width: 8,
-            height: 8,
-            borderRadius: '50%',
-            backgroundColor: '#10B981',
-            boxShadow: '0 0 8px #10B981',
-          }}
-        />
-        <span
-          style={{
-            fontSize: 13,
-            fontWeight: 800,
-            letterSpacing: 1.2,
-            color: '#FFFFFF',
-          }}
-        >
-          {nameTag}
-        </span>
-        <span
-          style={{
-            fontSize: 12,
-            fontWeight: 700,
-            color: '#38BDF8',
-          }}
-        >
-          {roleTag}
-        </span>
-      </div>
-    </div>
+    </>
   );
 };
