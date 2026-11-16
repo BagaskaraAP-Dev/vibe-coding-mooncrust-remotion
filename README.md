@@ -3,6 +3,9 @@
 > **Dibuat & Dirender secara Otonom oleh [Google Antigravity](https://deepmind.google) & Gemini**  
 > Video animasi edukasi vertikal Instagram Feeds berdurasi **01:50 Menit (110 Detik / 3300 Frames @ 30 FPS)** dengan resolusi **1080x1350 (Rasio 4:5)** dan presenter **Mooncrust**.
 
+🎥 **Download & Tonton Video MP4 Langsung:**  
+👉 **[Download Video di GitHub Release v1.0.0](https://github.com/BagaskaraAP-Dev/vibe-coding-mooncrust-remotion/releases/tag/v1.0.0)** (24.9 MB)
+
 ---
 
 ## 🌟 Tentang Proyek
